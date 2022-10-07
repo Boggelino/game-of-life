@@ -8,6 +8,7 @@ HEIGHT = 500
 vs = 10
 absvs = vs
 cells = np.zeros((WIDTH//vs, HEIGHT//vs), dtype=int)
+cells_def = np.zeros((WIDTH//vs, HEIGHT//vs), dtype=int)
 cells_new = np.zeros((WIDTH//vs, HEIGHT//vs), dtype=int)
 
 def get_neighbours(x, y):
@@ -48,6 +49,7 @@ def openfile():
     load = []
     filename = fd.askopenfilename()
     f = open(filename,"r")
+    cells_new = cells_def.copy()
     for i in f:
         for j in i.split():
             load.append(j)
@@ -105,10 +107,12 @@ def redraw_cell():
 
 
 def create_stage():
+    global cells_new, cells_def
     for x in range(WIDTH//vs):
         canvas.create_line(x*vs, 0, x*vs, HEIGHT)
     for y in range(HEIGHT//vs):
         canvas.create_line(0, y*vs, WIDTH, y*vs)
+    cells_new = cells_def
 
 canvas = tk.Canvas(width = WIDTH, height = HEIGHT, bg = "white")
 canvas.pack()
