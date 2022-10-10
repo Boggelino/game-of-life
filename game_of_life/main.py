@@ -53,17 +53,36 @@ def openfile():
     for i in f:
         for j in i.split():
             load.append(j)
-    for i in range(len(load)):
-        for j in range(len(load[i])):
-            print(load[i][j])
-            if load[i][j] == "1":
-                cells_new[i, j] = 1
-            else:
-                cells_new[i, j] = 0
-    cells = cells_new.copy()
-    canvas.delete("all")
-    create_stage()
-    redraw_cell()
+    counter = 0
+    for i in load:
+        for j in i:
+            counter += 1
+    if counter < 2500:
+        for i in range(len(load)):
+            for j in range(len(load[i])):
+                #print(load[i][j])
+                if load[i][j] == "1":
+                    cells_new[i, j] = 1
+                else:
+                    cells_new[i, j] = 0
+        cells = cells_new.copy()
+        canvas.delete("all")
+        create_stage()
+        redraw_cell()
+    else:
+        print("Máš strašné veľký súbor ;)")
+
+def loopFunction():
+    if w3.config('text')[-1] == 'LET THERE BE LIFE':
+        recalculate()
+        win.after(100, loopFunction)
+
+def lifegame():
+    if w3.config('text')[-1] == 'THERE IS NO LIFE':
+        w3.config(text='LET THERE BE LIFE')
+        loopFunction()
+    else:
+        w3.config(text='THERE IS NO LIFE')
 
 def recalculate():
     global cells, cells_new
@@ -118,9 +137,11 @@ canvas.pack()
 w = tk.Scale(win, from_=10, to=50, orient="horizontal", command = slider_changer, length = 500)
 w.pack()
 w2 = tk.Button(win, text = "Press me to progress a generation!", command = recalculate)
-w2.pack()
+w2.pack(side=tk.LEFT)
 w3 = tk.Button(win, text = "Load an already created game file:", command = openfile)
-w3.pack()
+w3.pack(side=tk.RIGHT)
+w3 = tk.Button(win, text = "THERE IS NO LIFE", command = lifegame)
+w3.pack(side=tk.BOTTOM)
 
 create_stage()
 canvas.bind("<Button-1>", create_cell)
