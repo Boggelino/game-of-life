@@ -62,9 +62,9 @@ def openfile():
             for j in range(len(load[i])):
                 #print(load[i][j])
                 if load[i][j] == "1":
-                    cells_new[i, j] = 1
+                    cells_new[j, i] = 1
                 else:
-                    cells_new[i, j] = 0
+                    cells_new[j, i] = 0
         cells = cells_new.copy()
         canvas.delete("all")
         create_stage()
